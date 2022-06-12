@@ -1,24 +1,56 @@
 
-let respuesta = 'si'
 
-while(respuesta.toLowerCase() === 'si') {
-    const servicio = prompt("Ingrese el servicio que desea suscribirse: Netflix, Amazon prime, HBO");
-    let tiempo = Number(prompt("Ingrese numero de meses que desea estar suscrito: 1 mes, 3 meses, 12 meses"));
-    let pantallas = Number(prompt("Ingrese numero de pantallas que va a utilizar para el servicio: 1, 2, 4"));
-    let personas = Number(prompt("Ingrese numero de personas que van a utilizar el servicio: 1, 2, 4"));
+const stockTienda = [
+    {
+        "nombre":"Celular Samsung S22",
+        "precio":90.000,
+        "stock":10
+    },
+    {
+        "nombre":"Heladera Ciclica Patrick",
+        "precio":74.000,
+        "stock":5
+    },
+    {
+        "nombre":"Smart TV 4k LG",
+        "precio":107.000,
+        "stock":8
+    },
+    {
+        "nombre":"Microondas Digital Eco 20 Lts BGH",
+        "precio":24.000,
+        "stock":15
+    },
+    {
+        "nombre":"Lavarropas Carga Frontal 8kg 1200 RPM DREAN",
+        "precio":88.000,
+        "stock":3
+    }, 
+    {
+        "nombre":"Tablet Lenovo M10 10,1 pulgadas 64 gb",
+        "precio":33.000,
+        "stock":20
+    },
+];
 
-    const costoServicio = calcularCosto(tiempo, pantallas, personas);
+let total = 0;
 
-    if (costoServicio >= 4000) {
-        alert("Felicidades! adquiriste "+ servicio + " premium " + "por un precio de " + costoServicio)
-    } else {
-        alert("Felicidades! adquiriste " + servicio + " basico " + " por un precio de " + costoServicio)
-    }
 
-    respuesta = prompt('¿Deseas adquirir otro servicio?');
-}
 
-function calcularCosto(tiempo, pantallas, personas) {
-    let costoServicio = ((tiempo, pantallas, personas) * 1500)
-    return costoServicio ;
-}
+
+const carrito = [];
+const producto = prompt("Bienvenido a nuestra tienda digital! ¿qué producto deseas comprar? (Celular, Heladera, TV, Lavarropas, Microondas, Computadora)");
+
+carrito.push(producto);
+
+while (confirm("¿Deseas agregar otro producto a tu carrito de compras?")) {
+    const producto = prompt("¿qué otro producto deseas comprar? (Celular, Heladera, TV, Lavarropas, Microondas, Computadora) Si no desea comprar mas haga click en Cancelar =)")
+    carrito.push(producto)
+};
+
+alert("Felicidades! Has adquirido los siguientes productos:")
+carrito.forEach ((producto) => alert(producto));
+
+
+
+

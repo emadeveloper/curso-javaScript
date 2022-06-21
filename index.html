@@ -4,10 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso JavaScript</title>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript SCRIPT -->
-    <script defer src="main.js"></script>
+    <script defer src="js/main.js"></script>
     <!-- Styles CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- NAV MENU -->
@@ -24,37 +26,41 @@
         </nav>
     </div>
     <!-- HERO -->
-    <h1>Tienda online de venta de todo tipo de productos!</h1>
+    <section class="container mt-5">
+        <div class="container">
+            <h1 class="text-center">Tienda online de venta de todo tipo de productos!</h1>
+            <div id="filtro"></div>
+            <div class="items">
+                <div class="row">
 
-    <section>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
-        <article>
-            <img src="#" alt="product-card">
-            <p>Descripcion de producto y precio</p>
-        </article>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="row text-center" id="tienda">
+
+        </div>
     </section>
 
+    <section class="container mt-5">
+        <h1 class="text-center">Carro de Compras</h1>
+        <div class="row text-center" id="carrito">
+
+        </div>
+        <div id="total">
+
+        </div>
+    </section>
+
+<!-- Footer -->
     <footer>
         <p>Copyright todos los derechos reservados.</p>
     </footer>
+
+
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>

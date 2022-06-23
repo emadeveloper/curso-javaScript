@@ -54,14 +54,17 @@ const carrito = [];
 function pintarProductos(){
     let tienda = document.getElementById("tienda");
     stockTienda.forEach((e) => {
-        let productoEnHTML = `<div class="card text-center" style="width: 18rem;">
-        <img class="card-img-top" src= "${e.img}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">"${e.nombre}"</h5>
-          <p class="card-text">"${e.precio}$"</p>
-          <button class="btn btn-primary" onClick="agregarProductoAlCarrito(${e.id})">Agregar al carrito</button>
-        </div>`
-
+        let productoEnHTML =`<div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
+                                <div class="card text-center" style="width: 18rem;">
+                                    <img class="card-img-top" src= "${e.img}" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">"${e.nombre}"</h5>
+                                        <p class="card-text">"${e.precio}$"</p>
+                                        <button class="btn btn-primary" onClick="agregarProductoAlCarrito(${e.id})">Agregar al carrito</button>
+                                    </div>
+                                </div>    
+                            </div>`
+        
     tienda.innerHTML += productoEnHTML
     })
 }
@@ -77,16 +80,16 @@ function agregarProductoAlCarrito(id){
 
 
     if(productoEnElCarrito){
-        productoEnElCarrito.stock ++;
+        productoEnElCarrito.stock++;
     }
         else {
             producto.stock = 1;
             carrito.push(producto);
 
         }
+        
         pintarCarrito();
     } 
-    
 
 // funcion para mostrar productos en el carrito
 function pintarCarrito(){
@@ -94,28 +97,21 @@ function pintarCarrito(){
 
     html = "";
     carrito.forEach((producto, id) => {
-        html += `<div class="card text-center" style="width: 18rem;">
-        <img class="card-img-top" src= "${producto.img}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">"${producto.nombre}"</h5>
-          <p class="card-text">"${producto.precio}$"</p>
-          <p class="card-text">"${producto.stock}"</p>
-          <button class="btn btn-danger" onClick="eliminarProductoDelCarrito(${producto.stock})">Quitar Del Carrito</button>
-        </div>`
+        html += `<div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
+                    <div class="card text-center" style="width: 18rem;">
+                        <img class="card-img-top" src= "${producto.img}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">${producto.nombre}</h5>
+                            <p class="card-text">${producto.precio}$</p>
+                            <p>Unidades :${producto.stock}</p>
+                            <button class="btn btn-danger" onClick="eliminarProductoDelCarrito(${producto.stock})">Quitar Del Carrito</button>
+                        </div>
+                    </div>                      
+                </div>`
     })
 
     carritoEnHTML.innerHTML = html;
     calcularTotal()
-}
-
-
-//funcion para eliminar productos del carrito
-const eliminarProductoDelCarrito = (id) => {
-    carrito[id].stock--;
-    if(carrito[id].stock ==0){
-        carrito.splice(id,1);
-    }
-    pintarCarrito()
 }
 
 
@@ -124,7 +120,28 @@ function calcularTotal(){
     carrito.forEach(producto => {
         total = producto.stock * producto.precio;
     });
-    console.log (total)
-
 }
 
+
+//funcion para eliminar productos del carrito
+const eliminarProductoDelCarrito = (id) => {
+    carrito[id].stock--;
+    if(carrito[id].stock == 0){
+        carrito.splice(id, 1);
+    }
+    
+    pintarCarrito();
+    
+}
+
+//EVENTOS
+const container = document.getElementById("tienda")
+
+container.addEventListener("click", (e) => {
+    if(e.target.classList.contains("btn-primary")){
+        alert("Agregaste un producto al carrito!")
+    }
+    if(e.target.classList.contains("btn-danger")){
+        alert("Eliminaste un producto al carrito!")
+    }
+})

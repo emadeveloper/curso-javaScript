@@ -78,18 +78,29 @@ function agregarProductoAlCarrito(id){
     let producto = stockTienda.find(producto => producto.id == id);
     let productoEnElCarrito = carrito.find(producto => producto.id == id);
 
-
-    if(productoEnElCarrito){
-        productoEnElCarrito.stock++;
-    }
-        else {
-            producto.stock = 1;
+    const agregarAlCarrito = e => {
+        if (e.target.classList.contains('btn-primary')) {
+            const id = e.target.id;
+            const producto = productos.find(producto => producto.id == id);
             carrito.push(producto);
-
         }
-        
         pintarCarrito();
-    } 
+    };
+}
+
+
+
+    //if(productoEnElCarrito){
+    //    productoEnElCarrito.stock++;
+    //}
+    //    else {
+    //        producto.stock = 1;
+    //        carrito.push(producto);
+//
+    //    }
+    //    
+    //    pintarCarrito();
+    //} 
 
 // funcion para mostrar productos en el carrito
 function pintarCarrito(){
@@ -139,9 +150,9 @@ const container = document.getElementById("tienda")
 
 container.addEventListener("click", (e) => {
     if(e.target.classList.contains("btn-primary")){
-        alert("Agregaste un producto al carrito!")
+    //    alert("Agregaste un producto al carrito!")
     }
     if(e.target.classList.contains("btn-danger")){
-        alert("Eliminaste un producto al carrito!")
+    //    alert("Eliminaste un producto al carrito!")
     }
 })

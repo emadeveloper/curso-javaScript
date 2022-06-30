@@ -1,158 +1,133 @@
+// Carrito
+let iconoCarrito = document.querySelector("#cart-icon");
+let carrito = document.querySelector(".carrito");
+let cerrarCarrito = document.querySelector("#close-cart");
 
-// array de objetos de la tienda
-const stockTienda = [
-    {
-        "id": 1,
-        "nombre":"Celular Samsung S22",
-        "precio":1000,
-        "img": "./img/Galaxy-s22.jpg",
-        "stock": 1
-    },
-    {
-        "id": 2,
-        "nombre":"Heladera Ciclica Patrick",
-        "precio":1500,
-        "img": "./img/Heladera-cyclic.jpg",
-        "stock": 1
-    },
-    {
-        "id": 3,
-        "nombre":"Smart TV 4k LG",
-        "precio":1000,
-        "img": "./img/Smart-Tv-LG.jpg",
-        "stock": 1
-    },
-    {
-        "id": 4,
-        "nombre":"Microondas Digital Eco 20 Lts BGH",
-        "precio":1500,
-        "img": "./img/Microondas-BGH.jpg",
-        "stock": 1
-    },
-    {
-        "id": 5,
-        "nombre":"Lavarropas Carga Frontal 8kg 1200 RPM DREAN",
-        "precio":1000,
-        "img": "./img/Lavarropas-Drean.jpg",
-        "stock": 1,
-    }, 
-    {
-        "id": 6,
-        "nombre":"Tablet Lenovo M10 10,1 pulgadas 64 gb",
-        "precio":1500,
-        "img": "./img/Tablet Lenovo M10 10,1 pulgadas 64 gb.jpg",
-        "stock": 1
-    },
-];
+//Abrir carrito
+iconoCarrito.addEventListener("click", () => {
+    carrito.classList.add("active");
+});
+//Cerrar carrito
+cerrarCarrito.addEventListener("click", () => {
+    carrito.classList.remove("active");
+});
 
+//carro funcional
+if (document.readyState == "loading"){
+    document.addEventListener("DOMContentLoaded", ready);
+} else {
+    ready()
+};
 
+//funciones
+function ready (){
+    //Quitar items del carrito
+    let quitarBotonDeCarrito = document.getElementsByClassName("cart-remove")
+    for(let i = 0; i < quitarBotonDeCarrito.length; i++){
+        let boton = quitarBotonDeCarrito[i];
+        boton.addEventListener("click", quitarProductoDeCarrito)
+    }
+    // Cambio de cantidades de unidades
+    let cantidadInputs = document.getElementsByClassName("cantidad-de-productos");
+    for(let i = 0; i < cantidadInputs.length; i++){
+        let input = cantidadInputs[i]
 
-let total = 0;
-const carrito = [];
+        input.addEventListener("change", cantidadCambiada);
+    }
+    //Agregar al carrito
+    let agregarAlCarrito = document.getElementsByClassName("add-cart")
+    for(let i = 0; i < agregarAlCarrito.length; i++){
+        let boton = agregarAlCarrito[i]
+        boton.addEventListener("click", clickAgregar);
+    }
+    //Boton de comprar funcional
+    document.getElementsByClassName("btn-buy")[0].addEventListener("click", botonComprarClickeado);
 
-// funcion para mostrar los productos al cliente 
-function pintarProductos(){
-    let tienda = document.getElementById("tienda");
-    stockTienda.forEach((e) => {
-        let productoEnHTML =`<div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
-                                <div class="card text-center" style="width: 18rem;">
-                                    <img class="card-img-top" src= "${e.img}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">"${e.nombre}"</h5>
-                                        <p class="card-text">"${e.precio}$"</p>
-                                        <button class="btn btn-primary" onClick="agregarProductoAlCarrito(${e.id})">Agregar al carrito</button>
-                                    </div>
-                                </div>    
-                            </div>`
-        
-    tienda.innerHTML += productoEnHTML
-    })
+};
+//Boton de comprar
+function botonComprarClickeado(){
+    alert("Tu orden ha sido enviada!");
+    let productosEnCarrito = document.getElementsByClassName("contenido-en-carrito")[0];
+    while (productosEnCarrito.hasChildNodes()){
+        productosEnCarrito.removeChild(productosEnCarrito.firstChild);
+    }
+    mostrarTotal();
 }
-pintarProductos();
+
+//funcion quitar producto del carrito
+
+function quitarProductoDeCarrito(event){
+    let botonClickeado = event.target;
+    botonClickeado.parentElement.remove();
+    mostrarTotal();
+};
 
 
 
 
-//funcion para agregar productos al carrito
-function agregarProductoAlCarrito(id){
-    let producto = stockTienda.find(producto => producto.id == id);
-    let productoEnElCarrito = carrito.find(producto => producto.id == id);
+//Cantidad Cambiada
+function cantidadCambiada(event){
+    let input = event.target
+    if (isNaN(input.value) || input.value <= 0) {
+        input.value = 1
+    }
+    mostrarTotal()
+};
 
-    const agregarAlCarrito = e => {
-        if (e.target.classList.contains('btn-primary')) {
-            const id = e.target.id;
-            const producto = productos.find(producto => producto.id == id);
-            carrito.push(producto);
+
+//Producto agregado al carrito
+function clickAgregar(event){
+    let boton = event.target
+    let productosTienda = boton.parentElement
+    let tituloProducto = productosTienda.getElementsByClassName("titulo-producto")[0].innerText;
+    let precio = productosTienda.getElementsByClassName("precio")[0].innerText;
+    let imagenDeProducto = productosTienda.getElementsByClassName("imagen-producto")[0].src;
+    agregarProductosAlCarrito(tituloProducto, precio, imagenDeProducto);
+    mostrarTotal();
+}
+//funcion agregar productos al carrito y productos ya agregados
+function agregarProductosAlCarrito(tituloProducto, precio, imagenDeProducto){
+    let carritoConProductos = document.createElement("div");
+    carritoConProductos.classList.add("box-de-carrito");
+    let itemsDeCarrito = document.getElementsByClassName("contenido-en-carrito")[0];
+    let nombresDeItems = itemsDeCarrito.getElementsByClassName("titulo-producto-en-carrito");
+    for(let i = 0; i < nombresDeItems.length; i++){
+        if (nombresDeItems[i].innerText == tituloProducto){
+        alert ("Ya agregaste este producto al carrito");
+        return;
         }
-        pintarCarrito();
-    };
-}
-
-
-
-    //if(productoEnElCarrito){
-    //    productoEnElCarrito.stock++;
-    //}
-    //    else {
-    //        producto.stock = 1;
-    //        carrito.push(producto);
-//
-    //    }
-    //    
-    //    pintarCarrito();
-    //} 
-
-// funcion para mostrar productos en el carrito
-function pintarCarrito(){
-    let carritoEnHTML = document.getElementById("carrito");
-
-    html = "";
-    carrito.forEach((producto, id) => {
-        html += `<div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
-                    <div class="card text-center" style="width: 18rem;">
-                        <img class="card-img-top" src= "${producto.img}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">${producto.nombre}</h5>
-                            <p class="card-text">${producto.precio}$</p>
-                            <p>Unidades :${producto.stock}</p>
-                            <button class="btn btn-danger" onClick="eliminarProductoDelCarrito(${producto.stock})">Quitar Del Carrito</button>
-                        </div>
-                    </div>                      
-                </div>`
-    })
-
-    carritoEnHTML.innerHTML = html;
-    calcularTotal()
-}
-
-
-//funcion calcular total
-function calcularTotal(){
-    carrito.forEach(producto => {
-        total = producto.stock * producto.precio;
-    });
-}
-
-
-//funcion para eliminar productos del carrito
-const eliminarProductoDelCarrito = (id) => {
-    carrito[id].stock--;
-    if(carrito[id].stock == 0){
-        carrito.splice(id, 1);
     }
-    
-    pintarCarrito();
-    
-}
 
-//EVENTOS
-const container = document.getElementById("tienda")
+    let contenidoBoxDeCarrito = `
+                                <img src="${imagenDeProducto}" alt="#" class="imagen-carrito">
+                                <div class="detalle">
+                                    <div class="titulo-producto-en-carrito">${tituloProducto}</div>
+                                    <div class="precio-carrito">${precio}</div>
+                                    <input type="number" value="1" class="cantidad-de-productos">
+                                </div>
+                                    <!-- Eliminar productos del carrito -->
+                                    <i class="bx bxs-trash-alt cart-remove"></i>
+                            `;
+                                
+    carritoConProductos.innerHTML = contenidoBoxDeCarrito;
+    itemsDeCarrito.append(carritoConProductos);
+    carritoConProductos.getElementsByClassName("cart-remove")[0].addEventListener("click", quitarProductoDeCarrito);
+    carritoConProductos.getElementsByClassName("cantidad-de-productos")[0].addEventListener("changue", cantidadCambiada);
+                                
+};
+//Actualizar total
+function mostrarTotal(){
+    let prodsEnCarrito = document.getElementsByClassName("contenido-en-carrito")[0];
+    let boxesDeCarrito = prodsEnCarrito.getElementsByClassName("box-de-carrito");
+    let total = 0
+    for(let i = 0; i < boxesDeCarrito.length; i++){
+        let boxDeCarrito = boxesDeCarrito[i]; 
+        let precioDeProducto = boxDeCarrito.getElementsByClassName("precio-carrito")[0];
+        let cantidadDeProductos = boxDeCarrito.getElementsByClassName("cantidad-de-productos")[0];
+        let precio = parseFloat(precioDeProducto.innerText.replace("$", ""));
+        let cantidad = cantidadDeProductos.value;
+        total = total + (precio * cantidad);
+    }
+        document.getElementsByClassName("total-precio")[0].innerText = "$" + total;
+};
 
-container.addEventListener("click", (e) => {
-    if(e.target.classList.contains("btn-primary")){
-    //    alert("Agregaste un producto al carrito!")
-    }
-    if(e.target.classList.contains("btn-danger")){
-    //    alert("Eliminaste un producto al carrito!")
-    }
-})
